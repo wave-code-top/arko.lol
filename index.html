@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Status Card</title>
+<style>
+  body {
+    margin:0;
+    font-family:system-ui, sans-serif;
+    background:#0f1113;
+    color:#e6eef0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+  }
+  .card {
+    background:#141617;
+    border-radius:12px;
+    padding:20px;
+    width:90%;
+    max-width:400px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.5);
+  }
+  .row {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px;
+    margin:8px 0;
+    background:#1b1d1f;
+    border-radius:8px;
+  }
+  .name { font-weight:600; }
+  .pill {
+    padding:6px 12px;
+    border-radius:999px;
+    font-weight:600;
+    font-size:14px;
+    width: 80px;
+    display: inline-block;
+    text-align: center;
+  }
+  .online { background:#065f46; color:#a7f3d0; } /* green */
+  .offline { background:#7f1d1d; color:#fecaca; } /* red */
+  .hits { background:#141617; color:#00cc66; }   /* teal */
+  .last-updated {
+    background: none;
+    color: #999;
+    font-weight: normal;
+    font-size: 13px;
+    padding: 0 12px 8px 12px;
+    text-align: center;  /* Centered */
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="row">
+    <span class="name">Bot Status</span>
+    <span class="pill" id="botStatus">Online</span>
+  </div>
+  <div class="row">
+    <span class="name">Total Hits</span>
+    <span class="pill hits" id="totalHits">13331</span>
+  </div>
+  <div class="last-updated" id="lastUpdated">
+    Last updated: 2025-08-10 15:00
+  </div>
+</div>
+
+<script>
+  const statusEl = document.getElementById('botStatus');
+  const status = statusEl.textContent.trim().toLowerCase();
+
+  if (status === 'online') {
+    statusEl.classList.add('online');
+  } else if (status === 'offline') {
+    statusEl.classList.add('offline');
+  }
+</script>
+
+</body>
+</html>
