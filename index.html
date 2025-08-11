@@ -73,8 +73,9 @@
 
 <script>
 async function fetchData() {
-  const statusURL = 'https://raw.githubusercontent.com/wave-code-top/arko.lol/main/status.txt';
-  const hitsURL = 'https://raw.githubusercontent.com/wave-code-top/arko.lol/main/hits.txt';
+const statusURL = 'https://raw.githubusercontent.com/wave-code-top/arko.lol/main/status.txt';
+const hitsURL = 'https://raw.githubusercontent.com/wave-code-top/arko.lol/main/hits.txt';
+
   
   const statusText = await fetch(statusURL).then(r => r.text()).catch(() => 'Offline');
   const hitsText = await fetch(hitsURL).then(r => r.text()).catch(() => '0');
