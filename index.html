@@ -42,16 +42,16 @@
     display: inline-block;
     text-align: center;
   }
-  .online { background:#065f46; color:#a7f3d0; } /* green */
-  .offline { background:#7f1d1d; color:#fecaca; } /* red */
-  .hits { background:#141617; color:#00cc66; }   /* teal */
+  .online { background:#065f46; color:#a7f3d0; }
+  .offline { background:#7f1d1d; color:#fecaca; }
+  .hits { background:#141617; color:#00cc66; }
   .last-updated {
     background: none;
     color: #999;
     font-weight: normal;
     font-size: 13px;
     padding: 0 12px 8px 12px;
-    text-align: center;  /* Centered */
+    text-align: center;
   }
 </style>
 </head>
@@ -60,24 +60,43 @@
 <div class="card">
   <div class="row">
     <span class="name">Bot Status</span>
-    <span class="pill" id="botStatus">Offline</span>
+    <span class="pill" id="botStatus">Loading...</span>
   </div>
   <div class="row">
     <span class="name">Total Hits</span>
-    <span class="pill hits" id="totalHits">2</span>
+    <span class="pill hits" id="totalHits">0</span>
   </div>
-  <div class="last-updated" id="lastUpdated">Last updated: 2025-08-10 20:42</div>
+  <div class="last-updated" id="lastUpdated">
+    Last updated: Loading...
+  </div>
 </div>
 
 <script>
-  const statusEl = document.getElementById('botStatus');
-  const status = statusEl.textContent.trim().toLowerCase();
+async function fetchData() {
+  const statusURL = 'https://raw.githubusercontent.com/wave-code-top/arko.lol/main/status.txt';
+  const hitsURL = 'https://raw.githubusercontent.com/wave-code-top/arko.lol/main/hits.txt';
+  
+  const statusText = await fetch(statusURL).then(r => r.text()).catch(() => 'Offline');
+  const hitsText = await fetch(hitsURL).then(r => r.text()).catch(() => '0');
 
-  if (status === 'online') {
-    statusEl.classList.add('online');
-  } else if (status === 'offline') {
-    statusEl.classList.add('offline');
-  }
+  const statusEl = document.getElementById('botStatus');
+  statusEl.textContent = statusText.trim();
+  statusEl.classList.remove('online', 'offline');
+  statusEl.classList.add(statusText.trim().toLowerCase());
+
+  document.getElementById('totalHits').textContent = hitsText.trim();
+
+  const now = new Date();
+  const formatted = now.getFullYear() + '-' +
+                    String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                    String(now.getDate()).padStart(2, '0') + ' ' +
+                    String(now.getHours()).padStart(2, '0') + ':' +
+                    String(now.getMinutes()).padStart(2, '0');
+  document.getElementById('lastUpdated').textContent = 'Last updated: ' + formatted;
+}
+
+fetchData();
+setInterval(fetchData, 5000); // refresh every 30 seconds
 </script>
 
 </body>
